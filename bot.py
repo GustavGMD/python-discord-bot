@@ -1,7 +1,9 @@
 # bot.py
 import discord
+import random
 import json
 import constants
+import time
 
 from discord.ext import commands
 
@@ -17,9 +19,28 @@ def stringToCodeBlock(string :str):
 
 def encounter_spawn():
     # TODO1: Fetch encounter data from json
-    # TODO2: Save encounter data
+    file = open(constants.ENCOUNTERS_FILE, 'r', encoding='utf8')
+    # TODO2: Create encounter instance and save it
+    encounterData = json.load(file)
+    selectedEncounter = random.choice(encounterData['encounters'])
+    encounterInstance = dict()
+    encounterInstance['name'] = selectedEncounter['name']
+    encounterInstance['description'] = selectedEncounter['description']
+    reactions = dict()
+    reactions['very-effective'] = random.choices(selectedEncounter['reactions-pool']['very-effective'], k=1)
+    reactions['effective'] = random.choices(selectedEncounter['reactions-pool']['effective'], k=3)
+    encounterInstance['reactions'] = reactions
+    encounterInstance['timestamp'] = time.time()
+
+    activeEncounterFile = open(constants.BOT_DATA_PATH + 'active-encounter.json', 'w', encoding='utf8')
+    json.dump(encounterInstance, activeEncounterFile, indent = 6)
+
     # TODO3: Create encounter message and post to channel
-    print('Encounter Spawn: Not implemented')
+    print('Encounter Spawn: WIP')
+
+@bot.command(name='spawn', help='Debug command. Calls encounter spawn routine')
+async def spawn(context):
+    encounter_spawn()
 
 def encounter_interact(messageId, userId, reaction):
     # TODO1: Validate that messageId corresponds to an active Encounter

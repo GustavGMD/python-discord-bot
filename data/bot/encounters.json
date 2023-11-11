@@ -1,6 +1,7 @@
 {
     "encounters": [
         {
+            "id": 1,
             "name": "Orcs Horde",
             "description": "A well-armed group of orcs are attacking you!",
             "reactions-pool": {
@@ -10,6 +11,7 @@
             }            
         },
         {
+            "id": 2,
             "name": "Dragon",
             "description": "A huge dragon is attacking you!",
             "reactions-pool": {

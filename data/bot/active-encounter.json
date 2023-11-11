@@ -1,0 +1,15 @@
+{
+      "name": "Orcs Horde",
+      "description": "A well-armed group of orcs are attacking you!",
+      "reactions": {
+            "very-effective": [
+                  "\ud83d\udee1\ufe0f"
+            ],
+            "effective": [
+                  "\u26a1",
+                  "\ud83e\ude93",
+                  "\u2694\ufe0f"
+            ]
+      },
+      "timestamp": 1699745978.1568847
+}
