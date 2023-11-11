@@ -15,6 +15,27 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 def stringToCodeBlock(string :str):
     return f'```{string}```'
 
+def encounter_spawn():
+    # TODO1: Fetch encounter data from json
+    # TODO2: Save encounter data
+    # TODO3: Create encounter message and post to channel
+    print('Encounter Spawn: Not implemented')
+
+def encounter_interact(messageId, userId, reaction):
+    # TODO1: Validate that messageId corresponds to an active Encounter
+    # TODO2: Validate that userId has tyhe reaction emoji unlocked
+    # TODO3: Update encounter data with player reaction 
+    # note: players can only have one active reaction per encouter.
+    # previous reactions are removed as new ones are added
+    print('Encounter Interact: Not implemented')
+
+def encounter_conclude(messageId):
+    # TODO1: Get encounter data and compute result
+    # TODO2: distribute XP and loot to players
+    # TODO3: Create result message and post to channel
+    print('Encounter conclude: Not implemented')
+    
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
