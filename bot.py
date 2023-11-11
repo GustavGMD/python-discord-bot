@@ -86,20 +86,20 @@ async def state(context):
 
 @bot.command(name='join', help='Joins the game! The bot creates an account for the user')
 async def join(context):
+    print("command called: Join")
     # todo1: Get the user name or ID
     userId = context.author.id
 
     # todo2:Check if account already exists
     try:
         file = open(ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'r', encoding='utf8')
-        # If the file exists, there's alreayd an account so we should just retur
+        # If the file exists, there's already an account so we should just retur
         # a message to the channel
         messageString = f'You already have an account {context.author.display_name}'
         await context.message.channel.send(stringToCodeBlock(messageString))
         file.close()
     except:
         # the account file doesn't exist
-        messageString = f'You don\'t have an account yet {context.author.display_name}'
         await context.message.channel.send(stringToCodeBlock(messageString))
 
         # Load template account and fill with the new player's data
@@ -120,12 +120,34 @@ async def join(context):
         # Close the open files
         file.close()
         templateFile.close()
-
         
     # todo3: Save the data to a file, with the starting account data 
     # todo4: Return a feedback message stating that player has joined the game
-    print("command called: Join")
 
+@bot.command(name='account', help='Displays your account data')
+async def account(context):
+    print("command called: Account")
+    # todo1: Check if account exists
+    userId = context.author.id
+    try:
+        file = open(ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'r', encoding='utf8')        
+    except:
+        messageString = (
+            f'You don\'t have an account yet {context.author.display_name}\n'
+            f'Use the !join command to create one'
+        )
+        await context.message.channel.send(stringToCodeBlock(messageString))
+        return
+
+    # todo2: Return message to server with account content
+    account = json.load(file)
+    emojis = ' ,'.join([emoji for emoji in account['emojis']])
+    messageString = (
+        f'Here\'s your account info {context.author.display_name}:\n'
+        f'Reactions: {emojis}'                         
+    )
+    await context.message.channel.send(stringToCodeBlock(messageString))
+    file.close()    
 
 @bot.event
 async def on_raw_reaction_add(payload):
