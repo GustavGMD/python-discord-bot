@@ -1,0 +1,16 @@
+{
+    "data_list" : [
+        {
+            "object_name": "bolinha",
+            "other_data": "gatinho"
+        },
+        {
+            "object_name": "arroz",
+            "other_data": "cachorrinho"
+        },
+        {
+            "object_name": "nuvem",
+            "other_data": "ninja"
+        }
+    ]
+}
