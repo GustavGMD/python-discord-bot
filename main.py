@@ -68,3 +68,25 @@ async def on_error(event, *args, **kwargs):
 # client = CustomClient(intents=intents)
 
 client.run(TOKEN)
+
+# @bot.command(name='99', help='Responds with a random quote from Brooklyn 99')
+# async def nine_nine(context):
+#     brooklyn_99_quotes = [
+#         'I\'m the human form of the 💯 emoji.',
+#         'Bingpot!',
+#         (
+#             'Cool. Cool cool cool cool cool cool cool, '
+#             'no doubt no doubt no doubt no doubt.'
+#         )
+#     ]
+
+#     response = random.choice(brooklyn_99_quotes)
+#     await context.channel.send(response)
+
+# @bot.command(name='roll_dice', help='Simulates rolling dice.')
+# async def roll(context, number_of_dice : int, number_of_sides : int):
+#     dice = [
+#         str(random.choice(range(1, number_of_sides + 1)))
+#         for _ in range(number_of_dice)
+#     ]
+#     await context.send(', '.join(dice))
