@@ -1,0 +1,22 @@
+{
+    "encounters": [
+        {
+            "name": "Orcs Horde",
+            "description": "A well-armed group of orcs are attacking you!",
+            "reactions-pool": {
+                "very-effective": ["🔥", "🏹", "🛡️"],
+                "effective": ["⚔️", "🪓", "❄️", "⚡", "🌪️", "🗡️"],
+                "bad": []
+            }            
+        },
+        {
+            "name": "Dragon",
+            "description": "A huge dragon is attacking you!",
+            "reactions-pool": {
+                "very-effective": ["❄️", "🏹", "⚡"],
+                "effective": ["⚔️", "🪓", "🌪️", "🗡️", "🛡️"],
+                "bad": ["🔥"]
+            }
+        }
+    ]
+}
