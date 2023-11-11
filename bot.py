@@ -1,26 +1,9 @@
 # bot.py
-import os
-import random
 import discord
 import json
-from dotenv import load_dotenv
+import constants
 
 from discord.ext import commands
-
-# Constants
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
-
-BOT_DATA_PATH = 'data/bot/'
-ACCOUNTS_DATA_PATH = 'data/accounts/'
-TEMPLATES_DATA_PATH = 'data/templates/'
-
-BOT_CONFIG_FILE = 'bot-config.json'
-INITIALIZED_FIELD = 'initialized'
-GUILD_ID_FIELD = 'guild_id'
-CHANNEL_ID_FIELD = 'channel_id'
-
 
 # Initialize Bot object
 intents = discord.Intents.default()
@@ -44,18 +27,18 @@ async def init(context):
 
     # TODO2: Save the data to a file as JSON  
     try:
-        file = open(BOT_DATA_PATH + BOT_CONFIG_FILE, 'r+')
+        file = open(constants.BOT_DATA_PATH + constants.BOT_CONFIG_FILE, 'r+')
         botConfig = json.load(file)        
     except:
-        file = open(BOT_DATA_PATH + BOT_CONFIG_FILE, 'w')
+        file = open(constants.BOT_DATA_PATH + constants.BOT_CONFIG_FILE, 'w')
         botConfig = dict()
-        botConfig[INITIALIZED_FIELD] = False    
+        botConfig[constants.INITIALIZED_FIELD] = False    
 
-    if not botConfig[INITIALIZED_FIELD]:
+    if not botConfig[constants.INITIALIZED_FIELD]:
         # Update the JSON dictionary
-        botConfig[GUILD_ID_FIELD] = guildId
-        botConfig[CHANNEL_ID_FIELD] = channelId 
-        botConfig[INITIALIZED_FIELD] = True
+        botConfig[constants.GUILD_ID_FIELD] = guildId
+        botConfig[constants.CHANNEL_ID_FIELD] = channelId 
+        botConfig[constants.INITIALIZED_FIELD] = True
         # Move the file handler back to the start
         file.seek(0)
         # Write back to the file
@@ -68,8 +51,8 @@ async def init(context):
     else:
         await context.message.channel.send(stringToCodeBlock(
             f'I\'m already initialized!'
-            f'\nGuild: [{botConfig[GUILD_ID_FIELD]}]'
-            f'\nChannel: [{botConfig[CHANNEL_ID_FIELD]}]'
+            f'\nGuild: [{botConfig[constants.GUILD_ID_FIELD]}]'
+            f'\nChannel: [{botConfig[constants.CHANNEL_ID_FIELD]}]'
         ))       
 
     # close the file
@@ -92,7 +75,7 @@ async def join(context):
 
     # todo2:Check if account already exists
     try:
-        file = open(ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'r', encoding='utf8')
+        file = open(constants.ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'r', encoding='utf8')
         # If the file exists, there's already an account so we should just retur
         # a message to the channel
         messageString = f'You already have an account {context.author.display_name}'
@@ -102,8 +85,8 @@ async def join(context):
     except:
         # Load template account and fill with the new player's data
         # Save file
-        file = open(ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'w', encoding='utf8')
-        templateFile = open(TEMPLATES_DATA_PATH + 'account-template.json', 'r', encoding='utf8')
+        file = open(constants.ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'w', encoding='utf8')
+        templateFile = open(constants.TEMPLATES_DATA_PATH + 'account-template.json', 'r', encoding='utf8')
         account = json.load(templateFile)
         account['userid'] = userId
         file.seek(0)
@@ -131,7 +114,7 @@ async def account(context):
     # todo1: Check if account exists
     userId = context.author.id
     try:
-        file = open(ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'r', encoding='utf8')        
+        file = open(constants.ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'r', encoding='utf8')        
     except:
         messageString = (
             f'You don\'t have an account yet {context.author.display_name}\n'
@@ -183,7 +166,7 @@ async def on_raw_reaction_add(payload):
 #     ]
 #     await context.send(', '.join(dice))
 
-bot.run(TOKEN)
+bot.run(constants.TOKEN)
 
 # def validate_bot_config():
 #     try:
