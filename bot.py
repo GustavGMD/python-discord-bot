@@ -98,10 +98,8 @@ async def join(context):
         messageString = f'You already have an account {context.author.display_name}'
         await context.message.channel.send(stringToCodeBlock(messageString))
         file.close()
+        return
     except:
-        # the account file doesn't exist
-        await context.message.channel.send(stringToCodeBlock(messageString))
-
         # Load template account and fill with the new player's data
         # Save file
         file = open(ACCOUNTS_DATA_PATH + f'account-{userId}.json', 'w', encoding='utf8')
@@ -111,7 +109,10 @@ async def join(context):
         file.seek(0)
         json.dump(account, file, indent = 6)
 
-        messageString = f'New account created! {context.author.display_name}'
+        messageString = (
+            f'New account created! {context.author.display_name} \n'
+            f'reactions: '
+        )
         for emoji in account['emojis']:
             # messageString += f'U+{ord(emoji):X}'
             messageString += f'{emoji} '        
@@ -141,7 +142,7 @@ async def account(context):
 
     # todo2: Return message to server with account content
     account = json.load(file)
-    emojis = ' ,'.join([emoji for emoji in account['emojis']])
+    emojis = ' '.join([emoji for emoji in account['emojis']])
     messageString = (
         f'Here\'s your account info {context.author.display_name}:\n'
         f'Reactions: {emojis}'                         
