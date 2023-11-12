@@ -52,7 +52,11 @@ async def encounter_spawn():
     
     channelId = botConfig[constants.CHANNEL_ID_FIELD]
     channel = bot.get_channel(channelId)
-    await channel.send(stringToCodeBlock(f'New Encounter created!\nWIP'))
+    await channel.send(stringToCodeBlock(
+        f'Encounter Started!\n'
+        f'Name: {encounterInstance["name"]}!\n'
+        f'Description: {encounterInstance["description"]}\n\n'
+        f'React to this message to take part in the action!'))
 
     print('Encounter Spawn: WIP')
 
