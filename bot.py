@@ -180,7 +180,6 @@ async def join(context):
         
     # todo3: Save the data to a file, with the starting account data 
     # todo4: Return a feedback message stating that player has joined the game
-
 @bot.command(name='account', help='Displays your account data')
 async def account(context):
     print("command called: Account")
