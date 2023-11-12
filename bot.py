@@ -80,6 +80,14 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 @bot.event
+async def on_error(event, *args, **kwargs):
+    with open('err.log', 'a') as f:
+        if event == 'error':
+            f.write(f'Unhandled message: {args[0]}\n')
+        else:
+            raise
+
+@bot.event
 async def on_raw_reaction_add(payload):
     channel = bot.get_channel(payload.channel_id)
     await channel.send(stringToCodeBlock(f'You reacted with {payload.emoji}'))
@@ -116,16 +124,15 @@ async def init(context):
             f'Initialization complete at:'
             f'\nGuild: [{context.guild.name}]'
             f'\nChannel: [{context.message.channel.name}]'
-        ))   
+        ))  
+        # close the file
+        file.close() 
     else:
         await context.message.channel.send(stringToCodeBlock(
             f'I\'m already initialized!'
             f'\nGuild: [{botConfig[constants.GUILD_ID_FIELD]}]'
             f'\nChannel: [{botConfig[constants.CHANNEL_ID_FIELD]}]'
         ))       
-
-    # close the file
-    file.close()
 
     # TODO3: Return a feedback message stating that the bot has been initialized
     print("command called: Init")
@@ -201,6 +208,20 @@ async def account(context):
     await context.message.channel.send(stringToCodeBlock(messageString))
     file.close()  
 
+@bot.command(name="error", help="Include an exception error in err.log")
+async def error(message):
+    print("command called: error")
+    error_exception = [
+        'I\'m the error exception handled.'
+    ]
+    if message.content == '99!':
+        response = random.choice(brooklyn_99_quotes)
+        await message.channel.send(response)
+    else:
+        response = random.choice(error_exception)
+        await message.channel.send(response)
+        raise discord.DiscordException
+    
 bot.run(constants.TOKEN)
 
 # def validate_bot_config():
