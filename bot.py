@@ -13,11 +13,20 @@ intents.message_content = True
 intents.reactions = True
 intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+client = discord.Client(intents=intents)
 
 def stringToCodeBlock(string :str):
     return f'```{string}```'
 
-def encounter_spawn():
+def get_bot_config():
+    try:
+        file = open(constants.BOT_DATA_PATH + constants.BOT_CONFIG_FILE, 'r+')
+        botConfig = json.load(file)     
+        return botConfig   
+    except:
+        return False   
+
+async def encounter_spawn():
     # TODO1: Fetch encounter data from json
     file = open(constants.ENCOUNTERS_FILE, 'r', encoding='utf8')
     # TODO2: Create encounter instance and save it
@@ -36,13 +45,22 @@ def encounter_spawn():
     json.dump(encounterInstance, activeEncounterFile, indent = 6)
 
     # TODO3: Create encounter message and post to channel
+    botConfig = get_bot_config()
+    if not botConfig:
+        print("botConfig json file is invalid")
+        return
+    
+    channelId = botConfig[constants.CHANNEL_ID_FIELD]
+    channel = bot.get_channel(channelId)
+    await channel.send(stringToCodeBlock(f'New Encounter created!\nWIP'))
+
     print('Encounter Spawn: WIP')
 
 @bot.command(name='spawn', help='Debug command. Calls encounter spawn routine')
 async def spawn(context):
-    encounter_spawn()
+    await encounter_spawn()
 
-def encounter_interact(messageId, userId, reaction):
+async def encounter_interact(messageId, userId, reaction):
     # TODO1: Validate that messageId corresponds to an active Encounter
     # TODO2: Validate that userId has tyhe reaction emoji unlocked
     # TODO3: Update encounter data with player reaction 
@@ -50,7 +68,7 @@ def encounter_interact(messageId, userId, reaction):
     # previous reactions are removed as new ones are added
     print('Encounter Interact: Not implemented')
 
-def encounter_conclude(messageId):
+async def encounter_conclude(messageId):
     # TODO1: Get encounter data and compute result
     # TODO2: distribute XP and loot to players
     # TODO3: Create result message and post to channel
@@ -61,6 +79,17 @@ def encounter_conclude(messageId):
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
+@bot.event
+async def on_raw_reaction_add(payload):
+    channel = bot.get_channel(payload.channel_id)
+    await channel.send(stringToCodeBlock(f'You reacted with {payload.emoji}'))
+    # Check if the user is allowed to use this emoji
+    # if it is, add it to the current activity count
+    # else remove the reaction
+    user = bot.get_user(payload.user_id)
+    message = await channel.fetch_message(payload.message_id)
+    await message.remove_reaction(payload.emoji, user)
+
 @bot.command(name='init', help='Initializes bot to post in this channel')
 async def init(context):
     # TODO1: Get channel and guild name, or maybe IDs?
@@ -68,10 +97,8 @@ async def init(context):
     guildId = context.guild.id
 
     # TODO2: Save the data to a file as JSON  
-    try:
-        file = open(constants.BOT_DATA_PATH + constants.BOT_CONFIG_FILE, 'r+')
-        botConfig = json.load(file)        
-    except:
+    botConfig = get_bot_config()
+    if not get_bot_config:
         file = open(constants.BOT_DATA_PATH + constants.BOT_CONFIG_FILE, 'w')
         botConfig = dict()
         botConfig[constants.INITIALIZED_FIELD] = False    
@@ -173,18 +200,7 @@ async def account(context):
         f'Reactions: {emojis}'                         
     )
     await context.message.channel.send(stringToCodeBlock(messageString))
-    file.close()    
-
-@bot.event
-async def on_raw_reaction_add(payload):
-    channel = bot.get_channel(payload.channel_id)
-    await channel.send(stringToCodeBlock(f'You reacted with {payload.emoji}'))
-    # Check if the user is allowed to use this emoji
-    # if it is, add it to the current activity count
-    # else remove the reaction
-    user = bot.get_user(payload.user_id)
-    message = await channel.fetch_message(payload.message_id)
-    await message.remove_reaction(payload.emoji, user)
+    file.close()  
 
 bot.run(constants.TOKEN)
 
@@ -195,3 +211,10 @@ bot.run(constants.TOKEN)
 #         return botConfig[INITIALIZED_FIELD]
 #     except:
 #         return False
+
+
+# 1. Criação de Contas
+# 2. Genrenciamento de Encontros
+#   - Criar, interação dos players, conclusão
+# 3. Trigger de encontros (como fazer? contar mensagens no servidor? cron job?)
+# 4. Testes?
