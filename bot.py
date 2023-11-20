@@ -4,6 +4,7 @@ import random
 import json
 import constants
 import time
+import requests
 
 from discord.ext import commands
 
@@ -226,6 +227,20 @@ async def error(message):
         await message.channel.send(response)
         raise discord.DiscordException
     
+# simple method to do http requests - returning json objects    
+@bot.command(name="request", help="Just one HTTP Get request")
+async def request(context):
+    headers = {'Accept': 'application/json'}
+    response = requests.get('https://reqres.in/api/users?page=2', headers)
+    response.raise_for_status() 
+    if response.status_code == 200:
+        await context.message.channel.send(stringToCodeBlock(response.json()))
+    else:
+        error = "Error from server: " + str(response.content)
+        await context.message.channel.send(stringToCodeBlock(error))
+
+    # response = requests.get('https://reqres.in/api/users?page=2')
+    # await context.message.channel.send(stringToCodeBlock(response))
 bot.run(constants.TOKEN)
 
 # def validate_bot_config():
