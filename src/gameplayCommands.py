@@ -13,7 +13,7 @@ class heroCommands:
             ))  
 
         @self.bot.command(name='heroinfo', help='Gives detailed information about the specific hero')
-        async def hero(context):
+        async def hero(context, hero_name):
             print("command called: heroinfo")
             await context.message.channel.send(utils.stringToCodeBlock(
                 f'Command not implemented: !heroinfo'
