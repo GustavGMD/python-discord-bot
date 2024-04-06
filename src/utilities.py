@@ -6,7 +6,8 @@ def stringToCodeBlock(string :str):
 def readJSONFile(path):
     try:
         file = open(path, 'r+')
-        botConfig = json.load(file)     
+        botConfig = json.load(file)  
+        file.close()   
         return botConfig   
     except:
         return False   
