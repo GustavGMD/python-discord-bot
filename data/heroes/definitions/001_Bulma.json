@@ -1,19 +1,12 @@
 {
-    "Id" : "guid",
-    "name" : "Personagem Generico",
-    "initialStats": {
-        "Com" : 1,
-        "Inv" : 1,
-        "Soc" : 1,
-        "ItemSlots" : 0
-        
-    },
+    "Id" : "001",
+    "name" : "Bulma",
     "progressData": [
         {
             "level": 1,
             "Com" : 0,
-            "Inv" : 0,
-            "Soc" : 4,
+            "Inv" : 4,
+            "Soc" : 3,
             "ItemSlot" : 1
         },
         {
@@ -21,7 +14,7 @@
             "Com" : 0,
             "Inv" : 1,
             "Soc" : 1,
-            "Skill" : "Guid da skill"
+            "Skill" : "001"
         },
         {
             "level": 3,
@@ -35,14 +28,14 @@
             "Com" : 1,
             "Inv" : 1,
             "Soc" : 0,
-            "Skill" : "Guid da skill"
+            "Skill" : "002"
         },
         {
             "level": 5,
-            "Com" : 1,
-            "Inv" : 1,
+            "Com" : 0,
+            "Inv" : 2,
             "Soc" : 1,
-            "Skill" : "Guid da skill",
+            "Skill" : "003",
             "ItemSlot" : 1
         }
     ]  
