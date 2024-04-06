@@ -1,11 +1,20 @@
+import utilities as utils
+
 class heroCommands:
     def __init__(self, bot):
         print("Initialize the new instance of herobot.")
         self.bot = bot
-        #define all class methods here?
 
-        # this works!
-        @self.bot.command(name='hero', help='Testing using decorators inside a class')
+        @self.bot.command(name='heroes', help='List currently available heroes')
         async def hero(context):
-            # Just print something to debug in discord
             print("command called: hero")
+            await context.message.channel.send(utils.stringToCodeBlock(
+                f'Command not implemented: !heroes'
+            ))  
+
+        @self.bot.command(name='heroinfo', help='Gives detailed information about the specific hero')
+        async def hero(context):
+            print("command called: heroinfo")
+            await context.message.channel.send(utils.stringToCodeBlock(
+                f'Command not implemented: !heroinfo'
+            ))
