@@ -4,3 +4,9 @@ pip install pymongo
 
 //Para rodar o bot
 python bot.py
+
+
+// Bot atualizado do client:
+python src/main.py
+
+nota: !request não funciona neste bot
