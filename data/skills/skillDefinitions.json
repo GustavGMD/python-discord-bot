@@ -1,0 +1,31 @@
+{
+    "allSkills": [
+        {
+            "Id" : "001",
+            "Name" : "Capsulas: Transporte",
+            "StatBonus" : {
+                "Com" : 0,
+                "Inv" : 1,
+                "Soc" : 0 
+            }
+        },
+        {
+            "Id" : "002",
+            "Name" : "Capsulas: Combate",
+            "StatBonus" : {
+                "Com" : 1,
+                "Inv" : 0,
+                "Soc" : 0 
+            }
+        },
+        {
+            "Id" : "003",
+            "Name" : "Capsulas: Utilidades",
+            "StatBonus" : {
+                "Com" : 0,
+                "Inv" : 0,
+                "Soc" : 1 
+            }
+        }
+    ]
+}

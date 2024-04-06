@@ -1,0 +1,18 @@
+{
+    "HeroId" : "001",
+    "Level" : 1,
+    "MissionsCompleted" : 0,
+    "StatsBase": {
+        "Com" : 1,
+        "Inv" : 1,
+        "Soc" : 1    
+    },
+    "StatsModifiers": {
+        "Com" : 0,
+        "Inv" : 1,
+        "Soc" : 0    
+    },
+    "Skills" : [ ],
+    "ItemSlots" : 1,
+    "Items" : [ ]
+}
